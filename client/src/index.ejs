@@ -19,7 +19,54 @@
   <meta charset="utf-8"/>
   <title>Todo list app React</title>
 </head>
+<style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing: border-box;
+    }
+    body{
+      background: #ececec;
+    }
+    header{
+      display:-webkit-box;
+      display:-ms-flexbox;
+      display:flex;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      -webkit-box-align:center;
+          -ms-flex-align:center;
+              align-items:center;
+      height: 50px;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      background: #536DFE;
+      box-shadow: 0 0 1px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.25);
+      z-index: 1;
+    }
+    h1{
+      font-family: 'Roboto, sans-serif';
+      font-weight: 200;
+      font-size: 30px;
+      text-align: center;
+      color: white;
+    }
+    .action-area{
+      min-height: 150px;
+      width: 100%;
+      background: #fff;
+      box-shadow: 0 0 1px rgba(0,0,0,0.1), 0 2px 4px 2px rgb(133, 151, 254);
+      position: fixed;
+      bottom: 0;
+    }
+  </style>
 <body>
-<div id="app"></div>
+  <header>
+      <h1>Todo lists</h1>
+  </header>
+  <div id="app"></div>
+  <div class="action-area"></div>
 </body>
 </html>
