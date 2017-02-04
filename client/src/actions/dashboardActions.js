@@ -1,9 +1,16 @@
 import * as types from '../constants/actionTypes';
 import axios from 'axios';
+import {normalize} from 'normalizr';
+import * as schema from './schema';
 
 export function listData() {
     return function (dispatch) {
         axios.get('api/getAllLists').then(result => {
+            // console.log(result.data);
+            // console.log(
+            //     'normalized response',
+            //     normalize(result.data, [schema.list])
+            // );
             return dispatch({
                 type: types.LIST_DATA,
                 lists: result.data
@@ -45,7 +52,7 @@ export function addTodo(listId, todo) {
         axios.post('api/addTodo',{'listId': listId, "todo": todo}).then(result => {
             return dispatch({
                 type: types.ADD_TODO,
-                payload: {_id: listId ,todo: result.data}
+                payload: {_id: listId ,list: result.data}
             });
         }).catch(err => {
             console.log(err);
@@ -55,7 +62,7 @@ export function addTodo(listId, todo) {
 
 export function removeTodo(listId, todoId) {
     return function (dispatch) {
-        axios.post('api/removeTodo?listId='+listId+'&todoId='+todoId).then(result => {
+        axios.delete('api/removeTodo?listId='+listId+'&todoId='+todoId).then(result => {
             return dispatch({
                 type: types.REMOVE_TODO,
                 payload: {listId: listId ,todoId: todoId}

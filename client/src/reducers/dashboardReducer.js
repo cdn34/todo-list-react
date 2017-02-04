@@ -9,50 +9,40 @@ const dashboardReducer = (state = initialState.dashboard, action) => {
         case ADD_LIST:
             const lists = state.lists.slice(0);
             lists.push(action.list);
-
             return Object.assign({}, state, {lists: lists});
         case REMOVE_LIST:
             const removeLists = state.lists.filter(item => item._id!=action.list._id);
             return Object.assign({}, state, {lists: removeLists});
         case ADD_TODO:
-            // let index = 0;
-            // const addTodoLists = Object.assign({}, state, {lists: });
-            // addTodoLists.lists.forEach((item, i) => {
-            //     if(item._id === action.payload._id)
-            //         item.todos.push(action.payload.todo);
-            // });
-            // state.lists.forEach((item, i) => item._id === action.payload._id ? index = i : index = 0);
-            // console.log(state.lists.slice(0)[index].todos.concat(action.payload.todo));
-            // const addTodoLists = 
-            //     state.lists
-            //     .slice(0)[index].todos.concat(action.payload.todo)
-            //     //.concat(state.lists.slice(0)[index].todos.concat(action.payload.todo));
-            
-            // console.log(addTodoLists);
-            return Object.assign({}, state);
-        case REMOVE_TODO:
-            let listIndex = 0;
-            let todoIndex = 0;
-
-            state.lists.forEach((item, i) => {
-                if(item._id === action.payload.listId) {
-                    listIndex = i;
-                    item.forEach((todo, j) => {
-                        if(todo._id === action.payload.todoId)
-                            todoIndex = j;
-                    });
-                }     
+            const addTodosLists = state.lists.map(list => {
+                if(list._id !== action.payload._id)
+                    return list;
+                const last = action.payload.list.todos.length-1;
+                const todosArr = list.todos.concat([action.payload.list.todos[last]]);
+                return {
+                    ...list,
+                    todos: todosArr
+                }
             });
-
-            const removeTodoLists = 
-                state.lists
-                .slice(0,listIndex)
-                .concat(state.lists.slice(0)[listIndex].todos.slice(0,todoIndex)
-                        .concat(state.lists.slice(0)[listIndex].todos.slice(todoIndex+1))
-                .concat(state.lists.slice(listIndex+1)));
-            
-            console.log(removeTodoLists);
-            return Object.assign({}, state, {lists: removeTodoLists});
+            return Object.assign({}, state,{lists: addTodosLists});
+        case REMOVE_TODO:
+            const removeTodoLists = state.lists.map(list => {
+                if(list._id !== action.payload.listId)
+                    return list;
+                let todoIndex = 0;
+                list.todos.forEach((todo, index) => { 
+                    if(todo._id == action.payload.todoId)
+                        todoIndex = index;
+                });
+                const last = list.todos.length-1;
+                //const todosArr = todoIndex < last ? list.todos.slice(0,todoIndex).concat(list.todos.slice(todoIndex+1)) : list.todos.slice(0,todoIndex);
+                const todosArr = todoIndex < last ? [...list.todos.slice(0,todoIndex), ...list.todos.slice(todoIndex+1)] : list.todos.slice(0,todoIndex);
+                return {
+                    ...list,
+                    todos: todosArr
+                }
+            })
+            return Object.assign({}, state,{lists: removeTodoLists});
         
         default:
             return state;

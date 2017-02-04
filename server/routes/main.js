@@ -25,7 +25,7 @@ router.post('/addTodo', co.wrap( function *(ctx, next) {
 }));
 
 router.del('/removeTodo', co.wrap( function *(ctx, next)  {
-    ctx.body = yield intDatabase.removeTodoItem(req.query['listId'], req.query['todoId']);
+    ctx.body = yield intDatabase.removeTodoItem(ctx.query['listId'], ctx.query['todoId']);
 }));
 
 module.exports = router;
