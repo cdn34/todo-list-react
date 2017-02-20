@@ -3,9 +3,10 @@ import {bindActionCreators} from 'redux';
 import * as actions from '../actions/dashboardActions';
 import DashboardPage from '../components/DashboardPage'; 
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
+  const lists = state && state.list &&  state.list.listArray ? state.list.listArray.map(id => state.list.lists[id]): [];
   return {
-    dashboard: state.dashboard
+    lists: lists
   };
 }
 

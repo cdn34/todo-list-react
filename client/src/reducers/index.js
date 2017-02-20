@@ -1,10 +1,13 @@
 // Set up your root reducer here...
  import { combineReducers } from 'redux';
- import dashboard from './dashboardReducer';
+ //import dashboard from './dashboardReducer';
+ import list from './listReducer';
+ import todo from './todoReducer';
  import {routerReducer} from 'react-router-redux';
 
 const rootReducer = combineReducers({
-    dashboard,
+    list,
+    todo,
     routing: routerReducer
 });
 

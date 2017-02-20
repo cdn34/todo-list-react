@@ -4,7 +4,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import CardItem from './CardItem/CardItem';
+import CardItemContainer from '../containers/CardItemContainer';
 
 const styles = {
     host: {
@@ -80,7 +80,7 @@ class DashboardPage extends React.Component {
         return (
             <StyleRoot>
                 <div style={styles.host}>
-                    {this.props.dashboard.lists.map(item => <CardItem key={item._id} reference={item._id} title={item.title} todos={item.todos} removeList={this.removeList} removeTodo={this.removeTodo} />)}
+                    {this.props.lists.map(item => <CardItemContainer key={item._id} reference={item._id} title={item.title} todos={item.todos} removeList={this.removeList} removeTodo={this.removeTodo} />)}
                     <div style={styles.actionArea}>
                         <div style={styles.action}>
                             <div style={styles.inline}>
@@ -103,7 +103,7 @@ class DashboardPage extends React.Component {
                                 value={this.state.selectField}
                                 onChange={this.handleChange}
                             >
-                            {this.props.dashboard.lists.map(item => <MenuItem key={item._id} value={item} primaryText={item.title} />)}
+                            {this.props.lists.map(item => <MenuItem key={item._id} value={item} primaryText={item.title} />)}
                             </SelectField>
                             <div style={styles.inline}>
                                 <TextField fullWidth={true} style={styles.paperInput} hintText="Add Todo" id="todoText"/>
@@ -127,7 +127,7 @@ class DashboardPage extends React.Component {
 
 DashboardPage.propTypes = {
   actions: PropTypes.object.isRequired,
-  dashboard: PropTypes.object.isRequired
+  lists: PropTypes.array.isRequired
 };
 
 export default  Radium(DashboardPage);

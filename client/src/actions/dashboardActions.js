@@ -6,14 +6,14 @@ import * as schema from './schema';
 export function listData() {
     return function (dispatch) {
         axios.get('api/getAllLists').then(result => {
-            // console.log(result.data);
-            // console.log(
-            //     'normalized response',
-            //     normalize(result.data, [schema.list])
-            // );
+            console.log(result.data);
+            console.log(
+                'normalized response',
+                normalize(result.data, [schema.list])
+            );
             return dispatch({
-                type: types.LIST_DATA,
-                lists: result.data
+                type: types.SET_DATA,
+                payload: normalize(result.data, [schema.list])//result.data
             });
         }).catch(err => {
             console.log(err);
@@ -26,7 +26,7 @@ export function addList(title) {
         axios.post('api/addList',{'title': title}).then(result => {
             return dispatch({
                 type: types.ADD_LIST,
-                list: result.data
+                payload: result.data
             });
         }).catch(err => {
             console.log(err);
@@ -37,9 +37,11 @@ export function addList(title) {
 export function removeList(listId) {
     return function (dispatch) {
         axios.delete('api/removeList?listId='+listId).then(result => {
+            console.log("Data:",result.data);
+            console.log("Data Normalized:",normalize(result.data, schema.list));
             return dispatch({
                 type: types.REMOVE_LIST,
-                list: result.data
+                payload: normalize(result.data, schema.list)
             });
         }).catch(err => {
             console.log(err);
@@ -52,7 +54,7 @@ export function addTodo(listId, todo) {
         axios.post('api/addTodo',{'listId': listId, "todo": todo}).then(result => {
             return dispatch({
                 type: types.ADD_TODO,
-                payload: {_id: listId ,list: result.data}
+                payload: normalize(result.data, schema.list)
             });
         }).catch(err => {
             console.log(err);
